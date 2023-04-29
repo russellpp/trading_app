@@ -4,10 +4,13 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { goToRegisterPage } from "../../redux/navigationReducer";
 import { AnimatePresence, motion } from "framer-motion";
+import { setRequestDetails, setRequestType } from "../../redux/requestReducer";
+import { useAuth } from "../../hooks/useAuth";
 
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { register } = useAuth();
   const [details, setDetails] = useState({
     email: "",
     password: "",
@@ -20,8 +23,19 @@ function Register() {
     dispatch(goToRegisterPage());
     navigate("/home/register");
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(details);
+    const requestDetails = {
+      user: {
+        email: details.email,
+        password: details.password,
+        password_confirmation: details.password_confirmation,
+        phone_number: details.phone_number_with_local,
+      },
+    };
+    register(requestDetails);
   };
 
   useEffect(() => {
@@ -212,7 +226,7 @@ const InputContainer = styled.div`
 `;
 
 const Input = styled.input`
-  background-color: var(--buffDark);
+  background-color: var(--buffDark2);
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
@@ -234,7 +248,7 @@ const Input = styled.input`
 `;
 
 const InputNumber = styled.input`
-  background-color: var(--buffDark);
+  background-color: var(--buffDark2);
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
@@ -284,7 +298,7 @@ const FormSubmitButton = styled.input`
   padding: 8px;
   border-radius: 25px;
   border: none;
-  background-color: var(--buffDark);
+  background-color: var(--buff);
   color: white;
   font-size: 18px;
   font-family: "Montserrat";
