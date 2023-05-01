@@ -8,6 +8,7 @@ import {
   goToVerifyPage,
 } from "../../redux/navigationReducer";
 import { AnimatePresence, motion } from "framer-motion";
+import { useAuth } from "../../hooks/useAuth";
 
 function Login() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ function Login() {
     email: "",
     password: "",
   });
+  const { login } = useAuth();
 
   const handleGoToRegister = () => {
     dispatch(goToRegisterPage());
@@ -27,8 +29,10 @@ function Login() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(goToVerifyPage);
-    navigate("/home/verify");
+    const requestDetails = {
+      user: details,
+    };
+    login(requestDetails);
   };
 
   return (

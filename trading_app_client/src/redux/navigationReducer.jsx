@@ -20,6 +20,9 @@ const navigationSlice = createSlice({
     goToVerifyPage: (state) => {
       state.currentPage = "verify";
     },
+    goToResendVerifyPage: (state) => {
+      state.currentPage = "verify_resend";
+    },
     goToPasswordResetPage: (state) => {
       state.currentPage = "reset";
     },
@@ -36,6 +39,7 @@ export const {
   goToPasswordResetPage,
   goToVerifyPage,
   goToPasswordResetCodePage,
+  goToResendVerifyPage
 } = navigationSlice.actions;
 
 export const selectCurrentPage = (state) => state.navigation.currentPage;
