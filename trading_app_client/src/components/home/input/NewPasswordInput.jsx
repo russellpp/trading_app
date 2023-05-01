@@ -1,16 +1,33 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
+import { goToPasswordResetPage } from "../../../redux/navigationReducer";
+import { useAuth } from "../../../hooks/useAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { selectResendDetails } from "../../../redux/userReducer";
 
 function NewPasswordInput() {
+  const currentResendDetails = useSelector(selectResendDetails);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { reset } = useAuth();
   const [details, setDetails] = useState({
-    phone_number: "",
+    phone_number: currentResendDetails.phone_number_with_local,
     reset_code: "",
     password: "",
     password_confirmation: "",
   });
 
-  const handleResend = () => {};
+  const handleResend = () => {
+    dispatch(goToPasswordResetPage);
+    navigate("/home/reset");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    reset(details);
+  };
 
   return (
     <NewPasswordWrapper
@@ -20,7 +37,7 @@ function NewPasswordInput() {
       transition={{ duration: 0.4 }}
     >
       <FormContainer>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Title>Input new password and reset code</Title>
           <InputContainer variant="code">
             <InputCode

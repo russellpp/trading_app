@@ -1,14 +1,38 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { selectLoginDetails } from "../../../redux/userReducer";
+import { useAuth } from "../../../hooks/useAuth";
+import { goToResendVerifyPage } from "../../../redux/navigationReducer";
 
 function VerifyInput() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const currentLoginDetails = useSelector(selectLoginDetails);
+  const { verify } = useAuth();
   const [details, setDetails] = useState({
     phone_number: "",
-    reset_code: "",
+    reset_code: null,
   });
 
-  const handleResend = () => {};
+  const handleResend = () => {
+    dispatch(goToResendVerifyPage());
+    navigate("/home/verify");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(currentLoginDetails);
+    const requestDetails = {
+      verify: {
+        email: currentLoginDetails.user.email,
+        verification_code: details.reset_code,
+      },
+    };
+    verify(requestDetails);
+  };
 
   return (
     <VerifyInputWrapper
@@ -18,8 +42,8 @@ function VerifyInput() {
       transition={{ duration: 0.4 }}
     >
       <FormContainer>
-        <Form>
-          <Title>Input new password and reset code</Title>
+        <Form onSubmit={handleSubmit}>
+          <Title>Enter verification code</Title>
           <InputContainer variant="code">
             <InputCode
               variant="code"
@@ -39,9 +63,10 @@ function VerifyInput() {
               }}
             />
             <PlaceholderNumber htmlFor="code" variant="code">
-              VERIFY CODE
+              6-DIGIT CODE
             </PlaceholderNumber>
           </InputContainer>
+          <FormSubmitButton type="submit" value="Submit" />
           <NavLink>
             Did not receive a code?
             <span onClick={handleResend}> Resend code.</span>

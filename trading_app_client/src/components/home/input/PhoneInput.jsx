@@ -2,27 +2,40 @@ import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import {
   goToPasswordResetCodePage,
   selectCurrentPage,
 } from "../../../redux/navigationReducer";
+import { setResendDetails } from "../../../redux/userReducer";
+import { useAuth } from "../../../hooks/useAuth";
 
 function PhoneInput() {
   const dispatch = useDispatch();
+  const { send_code } = useAuth();
   const navigate = useNavigate();
   const [details, setDetails] = useState({
     phone_number: "",
+    phone_number_with_local: "",
   });
 
   const currentPage = useSelector(selectCurrentPage);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(goToPasswordResetCodePage);
-    navigate("input_code");
+    dispatch(setResendDetails(details));
+    send_code(details);
   };
+
+  useEffect(() => {
+    if (details.phone_number) {
+      setDetails((prevState) => ({
+        ...prevState,
+        phone_number_with_local: "+63".concat(details.phone_number),
+      }));
+    }
+  }, [details.phone_number]);
 
   return (
     <ResetWrapper
