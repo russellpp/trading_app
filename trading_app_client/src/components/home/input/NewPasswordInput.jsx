@@ -13,14 +13,14 @@ function NewPasswordInput() {
   const navigate = useNavigate();
   const { reset } = useAuth();
   const [details, setDetails] = useState({
-    phone_number: currentResendDetails.phone_number_with_local,
+    phone_number: currentResendDetails?.phone_number_with_local,
     reset_code: "",
     password: "",
     password_confirmation: "",
   });
 
   const handleResend = () => {
-    dispatch(goToPasswordResetPage);
+    dispatch(goToPasswordResetPage());
     navigate("/home/reset");
   };
 

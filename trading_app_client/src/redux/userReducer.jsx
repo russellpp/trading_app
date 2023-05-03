@@ -24,6 +24,8 @@ const userSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isAdmin = false;
+      state.loginDetails = null;
+      state.resendDetails = null;
     },
     setLoginDetails: (state, action) => {
       state.loginDetails = action.payload;
@@ -51,5 +53,7 @@ export const {
 
 export const selectLoginDetails = (state) => state.user.loginDetails;
 export const selectResendDetails = (state) => state.user.resendDetails;
+export const selectUserDetails = (state) => state.user.user;
+export const selectUser = (state) => state.user;
 
 export default userSlice.reducer;

@@ -16,17 +16,14 @@ function HomeHeader() {
 
   const handleGoToLoginPage = () => {
     dispatch(goToLoginPage());
-    navigate("/home/login");
   };
 
   const handleGoToRegisterPage = () => {
     dispatch(goToRegisterPage());
-    navigate("/home/register");
   };
 
   const handleGoToHomePage = () => {
     dispatch(goToHomePage());
-    navigate("/");
   };
 
   return (

@@ -29,6 +29,19 @@ const navigationSlice = createSlice({
     goToPasswordResetCodePage: (state) => {
       state.currentPage = "reset_code";
     },
+    goToDashboard: (state) => {
+      state.currentPage = "dashboard";
+    },
+    goToDashProfile: (state) => {
+      state.currentPage = "profile";
+    },
+    goToDashUserTrade: (state) => {
+      state.currentPage = "user_trade";
+    },
+    goToDashCoins: (state) => {
+      state.currentPage = "coins";
+    },
+    
   },
 });
 
@@ -39,7 +52,11 @@ export const {
   goToPasswordResetPage,
   goToVerifyPage,
   goToPasswordResetCodePage,
-  goToResendVerifyPage
+  goToResendVerifyPage,
+  goToDashboard,
+  goToDashProfile,
+  goToDashCoins,
+  goToDashUserTrade
 } = navigationSlice.actions;
 
 export const selectCurrentPage = (state) => state.navigation.currentPage;

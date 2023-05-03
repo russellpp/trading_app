@@ -1,4 +1,4 @@
-import axios from "axios";
+import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { RAILS_API } from "../components/utils/Constants";
 import {
@@ -9,6 +9,7 @@ import {
   setSuccess,
   clearSuccess,
   selectError,
+  clearAll,
 } from "../redux/requestStatusReducer";
 import {
   clearResendDetails,
@@ -16,8 +17,12 @@ import {
   setLoginDetails,
   setResendDetails,
   userLogin,
+  userLogout,
 } from "../redux/userReducer";
 import {
+  goToDashboard,
+  goToHomePage,
+  goToLoginPage,
   goToPasswordResetCodePage,
   goToResendVerifyPage,
   goToVerifyPage,
@@ -25,6 +30,7 @@ import {
 } from "../redux/navigationReducer";
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import { clearCoins } from "../redux/coinReducer";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -53,6 +59,7 @@ export const useAuth = () => {
       console.log(data);
       dispatch(setSuccess(data.messages));
       dispatch(clearLoading());
+      dispatch(goToLoginPage());
     } else {
       const data = await response.json();
       dispatch(setError(data.errors));
@@ -82,6 +89,12 @@ export const useAuth = () => {
       console.log(data);
       dispatch(userLogin(data));
       dispatch(clearLoading());
+      dispatch(goToDashboard());
+      const expirationTime = new Date(Date.now() + 29 * 60 * 1000 + 56 * 1000);
+      Cookies.set("user", JSON.stringify(data), {
+        path: "/",
+        expires: expirationTime,
+      });
     } else {
       const data = await response.json();
       dispatch(setError(data.errors));
@@ -90,9 +103,19 @@ export const useAuth = () => {
       if (data.redirect_to_verify) {
         console.log(details.user.email);
         dispatch(goToVerifyPage());
-        navigate("/home/verify/input_code");
       }
     }
+  };
+
+  const logout = () => {
+    dispatch(setLoading());
+
+    dispatch(userLogout());
+    dispatch(clearCoins());
+    localStorage.clear();
+    Cookies.remove("user");
+    dispatch(goToHomePage());
+    dispatch(clearLoading());
   };
 
   const verify = async (details) => {
@@ -115,7 +138,7 @@ export const useAuth = () => {
       console.log(data);
       dispatch(setSuccess(data.status));
       dispatch(clearLoading());
-      navigate("/home/login");
+      dispatch(goToLoginPage());
     } else {
       const data = await response.json();
       dispatch(setError(data.errors));
@@ -159,10 +182,8 @@ export const useAuth = () => {
       dispatch(clearLoading());
       if (currentPage === "verify_resend") {
         dispatch(goToVerifyPage());
-        navigate("/home/verify/input_code");
       } else {
         dispatch(goToPasswordResetCodePage());
-        navigate("/home/reset/input_code");
       }
       dispatch(setSuccess(data.messages));
     } else {
@@ -202,6 +223,7 @@ export const useAuth = () => {
       console.log(data);
       dispatch(clearLoading());
       dispatch(setSuccess(data.status));
+      dispatch(goToLoginPage());
       dispatch(clearResendDetails());
     } else {
       const data = await response.json();
@@ -215,5 +237,5 @@ export const useAuth = () => {
     dispatch(clearAll());
   };
 
-  return { register, login, verify, send_code, reset, clearStates };
+  return { register, login, logout, verify, send_code, reset, clearStates };
 };

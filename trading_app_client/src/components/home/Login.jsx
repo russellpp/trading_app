@@ -100,6 +100,7 @@ const LoginWrapper = styled(motion.div)`
   width: 100%;
   display: grid;
   grid-template-columns: 40% 60%;
+  overflow: hidden;
 `;
 
 const TitleContainer = styled(motion.div)`

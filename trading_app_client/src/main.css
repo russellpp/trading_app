@@ -45,37 +45,37 @@
 
 @font-face {
   font-family: "Montserrat";
-  src: url("src/assets/Montserrat.woff2") format("woff2");
+  src: url("/src/assets/Montserrat.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "RobotoReg";
-  src: url("src/assets/Roboto-Regular.woff") format("woff");
+  src: url("/src/assets/Roboto-Regular.woff") format("woff");
 }
 
 @font-face {
   font-family: "RobotoThin";
-  src: url("src/assets/Roboto-Thin.woff") format("woff");
+  src: url("/src/assets/Roboto-Thin.woff") format("woff");
 }
 
 @font-face {
   font-family: "RobotoMed";
-  src: url("src/assets/Roboto-Medium.woff") format("woff");
+  src: url("/src/assets/Roboto-Medium.woff") format("woff");
 }
 
 @font-face {
   font-family: "RobotoBlack";
-  src: url("src/assets/Roboto-Black.woff2") format("woff2");
+  src: url("/src/assets/Roboto-Black.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "RobotoBold";
-  src: url("src/assets/Roboto-Bold.woff2") format("woff2");
+  src: url("/src/assets/Roboto-Bold.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "SanGiuseppe";
-  src: url("src/assets/SanGiuseppe.woff2") format("woff2");
+  src: url("/src/assets/SanGiuseppe.woff2") format("woff2");
 }
 
 * {
