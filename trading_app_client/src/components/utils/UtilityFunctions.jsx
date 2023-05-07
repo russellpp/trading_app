@@ -48,3 +48,17 @@ export const roundToSixSignificantFigures = (num) => {
   const shifted = Math.round(num * magnitude);
   return shifted / magnitude;
 };
+
+export const formatDate = (dateString) => {
+  const date = new Date(dateString);
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = date.toLocaleString("default", { month: "short" });
+  const year = String(date.getFullYear());
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}`;
+
+  return formattedDate;
+};

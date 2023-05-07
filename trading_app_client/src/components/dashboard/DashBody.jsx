@@ -15,7 +15,7 @@ function DashBody() {
     <>
       <DashBodyWrapper>
         <Routes>
-          <Route path="/" element={<Trade />} />
+          <Route path="/" element={<Profile />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/trade" element={<Trade />} />
           <Route path="/coins" element={<Coins />} />

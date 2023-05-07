@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { selectAllCoins, setCurrentCoin } from "../../../redux/coinReducer";
+import {
+  selectAllCoins,
+  selectCurrentCoin,
+  setCurrentCoin,
+} from "../../../redux/coinReducer";
 
 function CoinSearch() {
   const coins = useSelector(selectAllCoins);
+  const currentCOin = useSelector(selectCurrentCoin);
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState("");
   const [showResults, setShowResults] = useState(false);
@@ -14,6 +19,14 @@ function CoinSearch() {
   useEffect(() => {
     dispatch(setCurrentCoin(clickedOption));
   }, [clickedOption]);
+
+  useEffect(() => {
+    if (currentCOin) {
+      setSearchValue(currentCOin);
+      setClickedOption(currentCOin);
+      setShowResults(false);
+    }
+  }, [currentCOin]);
 
   const handleSearch = (event) => {
     const value = event.target.value.toLowerCase();

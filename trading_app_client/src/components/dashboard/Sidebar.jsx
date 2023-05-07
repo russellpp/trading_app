@@ -11,6 +11,7 @@ import {
   goToDashCoins,
   goToDashProfile,
   goToDashUserTrade,
+  selectCurrentPage,
 } from "../../redux/navigationReducer";
 import { useAuth } from "../../hooks/useAuth";
 import { useCoin } from "../../hooks/useCoin";
@@ -44,12 +45,13 @@ function Sidebar() {
   const { logout } = useAuth();
   const { getCrypto, getBalance, updateWatchlist } = useTrader();
   const navigate = useNavigate();
+  const currentPage = useSelector(selectCurrentPage);
   const dispatch = useDispatch();
   const [options, setOptions] = useState(["Hello", "Maria"]);
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleClick = () => {
-    console.log(ownedCoins)
+    console.log(coins.find((item) => item.gecko_id === "bitcoin"));
   };
 
   const handleLogout = () => {
@@ -63,8 +65,6 @@ function Sidebar() {
         dispatch(goToDashProfile());
       } else if (index === 1) {
         dispatch(goToDashUserTrade());
-      } else if (index === 2) {
-        dispatch(goToDashCoins());
       }
       setActiveIndex(index);
     }
@@ -72,7 +72,17 @@ function Sidebar() {
 
   useEffect(() => {
     if (!currentUser.isAdmin) {
-      setOptions(["Profile", "Trade", "Coins"]);
+      if (currentPage !== "user_trade") {
+        setActiveIndex(0);
+      } else {
+        setActiveIndex(1);
+      }
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (!currentUser.isAdmin) {
+      setOptions(["Profile", "Trade"]);
     } else {
       setOptions(["Users", "Trade", "Transactions", "Coins"]);
     }
