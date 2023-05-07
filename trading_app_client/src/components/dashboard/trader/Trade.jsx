@@ -11,16 +11,22 @@ import TradeBox from "../boxes/TradeBox";
 function Trade() {
   const currentCoin = useSelector(selectCurrentCoin);
   const dispatch = useDispatch();
-  const { getAllCoins, getMarketData, getCoinHistoricalPrice } = useCoin();
-  useEffect(() => {
+  const { getAllCoins, getMarketData, getCoinHistoricalPrice, getExactPrice } =
+    useCoin();
+  
+    useEffect(() => {
     if (currentCoin) {
       dispatch(setLoading());
       getCoinHistoricalPrice(currentCoin.gecko_id);
-      getMarketData([currentCoin.gecko_id])
+      getMarketData([currentCoin.gecko_id]);
+      getExactPrice(currentCoin.gecko_id);
       dispatch(clearLoading());
     }
   }, [currentCoin]);
 
+  
+ 
+  
   return (
     <TradeContainer>
       <h2>Trade</h2>
@@ -81,6 +87,5 @@ const Body = styled.div`
   font-family: "RobotoMed";
   color: var(--icterine);
 `;
-
 
 export default Trade;

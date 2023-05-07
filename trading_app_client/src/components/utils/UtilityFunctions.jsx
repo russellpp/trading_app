@@ -23,9 +23,28 @@ export const formatBigNumber = (value) => {
 export const formatPrice = (price) => {
   const formattedPrice = price.toLocaleString(undefined, {
     minimumSignificantDigits: 1,
-    maximumSignificantDigits: 5,
+    maximumSignificantDigits: 8,
     style: "currency",
     currency: "USD",
   });
   return formattedPrice;
+};
+
+export const formatPriceInput = (price) => {
+  const formattedPrice = price.toLocaleString(undefined, {
+    minimumSignificantDigits: 1,
+    maximumSignificantDigits: 8,
+  });
+  return formattedPrice;
+};
+
+export const roundToSixSignificantFigures = (num) => {
+  if (num === 0) {
+    return 0;
+  }
+  const d = Math.ceil(Math.log10(Math.abs(num)));
+  const power = 6 - d;
+  const magnitude = Math.pow(10, power);
+  const shifted = Math.round(num * magnitude);
+  return shifted / magnitude;
 };

@@ -207,6 +207,7 @@ export const useAuth = () => {
         password_confirmation: details.password_confirmation,
       },
     };
+    
 
     const headers = new Headers();
     headers.append("Content-Type", "application/json");

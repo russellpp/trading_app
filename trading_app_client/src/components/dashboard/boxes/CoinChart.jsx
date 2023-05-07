@@ -78,7 +78,8 @@ function CoinChart({ data }) {
         type="monotone"
         dataKey="price"
         stroke="#f0f757"
-        activeDot={{ r: 8 }}
+        activeDot={{ r: 8, fill: 'var(--blush)'}}
+        strokeWidth={3}
         dot={false}
       />
       <ReferenceLine

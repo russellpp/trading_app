@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { selectUser } from "../../redux/userReducer";
+import {
+  selectUser,
+  selectUserCryptos,
+  selectUserTransactions,
+} from "../../redux/userReducer";
 import { useNavigate } from "react-router";
 import {
   goToDashCoins,
@@ -14,26 +18,38 @@ import {
   selectAllCoins,
   selectChartData,
   selectCurrentCoin,
+  selectExactPrice,
   selectMarketData,
 } from "../../redux/coinReducer";
 import { setSuccess } from "../../redux/requestStatusReducer";
 import { CancelButton } from "../modals/Modals";
+import {
+  selectTradeTransactionType,
+  switchType,
+} from "../../redux/tradeReducer";
+import { useTrader } from "../../hooks/useTrader";
 
 function Sidebar() {
   const currentUser = useSelector(selectUser);
   const chartData = useSelector(selectChartData);
   const coins = useSelector(selectAllCoins);
-  const currrentCoin = useSelector(selectCurrentCoin);
+  const ownedCoins = useSelector(selectUserCryptos);
+  const transactionType = useSelector(selectTradeTransactionType);
+  const trans = useSelector(selectUserTransactions);
+  const currentCoin = useSelector(selectCurrentCoin);
+  const exactPrice = useSelector(selectExactPrice);
   const marketData = useSelector(selectMarketData);
-  const { getAllCoins, getMarketData, getCoinHistoricalPrice } = useCoin();
+  const { getAllCoins, getMarketData, getCoinHistoricalPrice, getExactPrice } =
+    useCoin();
   const { logout } = useAuth();
+  const { getCrypto, getBalance, updateWatchlist } = useTrader();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [options, setOptions] = useState(["Hello", "Maria"]);
   const [activeIndex, setActiveIndex] = useState(1);
 
   const handleClick = () => {
-    console.log(marketData);
+    console.log(ownedCoins)
   };
 
   const handleLogout = () => {

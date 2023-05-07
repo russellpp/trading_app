@@ -4,6 +4,7 @@ import navigationReducer from "./navigationReducer";
 import requestReducer from "./requestReducer";
 import requestStatusReducer from "./requestStatusReducer";
 import coinReducer from "./coinReducer";
+import tradeReducer from "./tradeReducer";
 
 export default configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
     navigation: navigationReducer,
     request: requestReducer,
     requestStatus: requestStatusReducer,
-    coin: coinReducer
+    coin: coinReducer,
+    trade: tradeReducer,
   },
 });

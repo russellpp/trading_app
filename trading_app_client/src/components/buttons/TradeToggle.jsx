@@ -1,5 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled, { ThemeProvider } from "styled-components";
+import {
+  selectTradeTransactionType,
+  switchType,
+} from "../../redux/tradeReducer";
 
 const ToggleContainer = styled.div`
   display: flex;
@@ -55,21 +60,28 @@ const theme = {
   toggleActiveTextColor: "var(--icterine)",
 };
 
-const TradeToggle = ({ onChange }) => {
+const TradeToggle = () => {
+  const dispatch = useDispatch();
+  const transactionType = useSelector(selectTradeTransactionType);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleClick = (index) => {
     setActiveIndex(index);
-    onChange(index === 0 ? "buy" : "sell");
   };
+
+  useEffect(() => {
+    activeIndex === 0
+      ? dispatch(switchType("buy"))
+      : dispatch(switchType("sell"));
+  }, [activeIndex]);
 
   return (
     <ThemeProvider theme={theme}>
       <ToggleContainer>
-        <ToggleButton active={activeIndex === 0} onClick={() => handleClick(0)}>
+        <ToggleButton type="button" active={activeIndex === 0} onClick={() => handleClick(0)}>
           Buy
         </ToggleButton>
-        <ToggleButton active={activeIndex === 1} onClick={() => handleClick(1)}>
+        <ToggleButton type="button" active={activeIndex === 1} onClick={() => handleClick(1)}>
           Sell
         </ToggleButton>
       </ToggleContainer>

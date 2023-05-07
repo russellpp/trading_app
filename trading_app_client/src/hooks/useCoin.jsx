@@ -23,6 +23,7 @@ import {
   selectCurrentCoin,
   setAllCoins,
   setChartData,
+  setExactPrice,
   setMarketData,
 } from "../redux/coinReducer";
 
@@ -126,5 +127,35 @@ export const useCoin = () => {
     }
   };
 
-  return { getAllCoins, getMarketData, getCoinHistoricalPrice };
+  const getExactPrice = async (id) => {
+    dispatch(setLoading());
+    dispatch(clearError());
+    dispatch(clearSuccess());
+
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    const request = new Request(
+      `${COIN_API}simple/price?ids=${id}&vs_currencies=usd&precision=12`,
+      {
+        method: "GET",
+        headers,
+      }
+    );
+
+    const response = await fetch(request);
+    if (response.status <= 300) {
+      const data = await response.json();
+      console.log(data);
+      localStorage.setItem("current_coin_exact_price", JSON.stringify(data));
+      dispatch(setExactPrice(data[currentCoin?.gecko_id].usd))
+      dispatch(clearLoading());
+    } else {
+      const data = await response.json();
+      dispatch(clearLoading());
+      console.log(data);
+    }
+  };
+
+  return { getAllCoins, getMarketData, getCoinHistoricalPrice, getExactPrice };
 };
