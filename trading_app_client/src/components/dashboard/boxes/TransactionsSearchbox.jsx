@@ -1,72 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import {
-  selectAllCoins,
-  selectCurrentCoin,
-  setCurrentCoin,
-} from "../../../redux/coinReducer";
-import { setFilteredUsers } from "../../../redux/adminReducer";
+  selectFilteredTransactions,
+  selectTransactionsList,
+  setFilteredTransactions,
+} from "../../../redux/adminReducer";
+import { formatDate } from "../../utils/UtilityFunctions";
 
-function CoinSearch() {
-  const coins = useSelector(selectAllCoins);
-  const currentCOin = useSelector(selectCurrentCoin);
+function TransactionsSearchbox() {
   const dispatch = useDispatch();
-  const [searchValue, setSearchValue] = useState("");
-  const [showResults, setShowResults] = useState(false);
-  const [filteredData, setFilteredData] = useState([]);
+  const transactionsList = useSelector(selectTransactionsList);
+  const filteredList = useSelector(selectFilteredTransactions);
   const [clickedOption, setClickedOption] = useState(null);
-
-  useEffect(() => {
-    dispatch(setCurrentCoin(clickedOption));
-  }, [clickedOption]);
-
-  useEffect(() => {
-    if (currentCOin) {
-      setSearchValue(currentCOin);
-      setClickedOption(currentCOin);
-      setShowResults(false);
-    }
-  }, [currentCOin]);
+  const [searchValue, setSearchValue] = useState("");
 
   const handleSearch = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchValue(value);
-    setShowResults(value !== "");
-    const filtered = coins.filter(
+    const filtered = transactionsList.filter(
       (item) =>
+        item.email.toLowerCase().includes(value) ||
         item.name.toLowerCase().includes(value) ||
+        item.transaction_type.toLowerCase().includes(value) ||
+        formatDate(item.created_at).toLowerCase().includes(value) ||
         item.ticker.toLowerCase().includes(value)
     );
-    setFilteredData(filtered);
+    dispatch(setFilteredTransactions(filtered));
   };
 
-  const handleOptionClick = (value) => {
-    setSearchValue(value);
-    setClickedOption(value);
-    setShowResults(false);
-  };
+  useEffect(() => {
+    if (searchValue === "") {
+      dispatch(setFilteredTransactions(transactionsList));
+    }
+  }, [searchValue]);
 
   return (
     <SearchContainer>
       <StyledInput
-        placeholder="Search coins"
+        placeholder="FILTER SEARCH: coin, ticker, trader email, buy/sell, date(DD-MM-YYYY), "
         value={searchValue.name}
         onChange={(event) => handleSearch(event)}
       />
-      {showResults && (
-        <SearchResults>
-          {filteredData.map((result) => (
-            <ResultItem
-              key={result.id}
-              onClick={() => handleOptionClick(result)}
-              isActive={result === clickedOption}
-            >
-              {result.name} ({result.ticker})
-            </ResultItem>
-          ))}
-        </SearchResults>
-      )}
     </SearchContainer>
   );
 }
@@ -76,13 +51,15 @@ const SearchContainer = styled.div`
   position: relative;
   font-family: "RobotoReg";
   width: 100%;
+  margin-top: 10px;
+  margin-bottom: 15px;
 
   input {
     border: none;
     outline: none;
-    background-color: var(--navyLighter);
+    background-color: var(--blushLightest);
     font-size: 1rem;
-    color: var(--white);
+    color: var(--navy);
     width: 95%;
     padding: 10px 20px;
     border-radius: 30px;
@@ -122,4 +99,4 @@ const ResultItem = styled.div`
   }
 `;
 
-export default CoinSearch;
+export default TransactionsSearchbox;

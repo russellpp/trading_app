@@ -5,8 +5,13 @@ import Profile from "./trader/Profile";
 import Trade from "./trader/Trade";
 import Coins from "./trader/Coins";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/userReducer";
+import Users from "./admin/Users";
+import Transactions from "./admin/Transactions";
 
 function DashBody() {
+  const user = useSelector(selectUser);
   const handleClick = () => {
     const cookie = Cookies.get("user");
     console.log(cookie);
@@ -14,12 +19,18 @@ function DashBody() {
   return (
     <>
       <DashBodyWrapper>
-        <Routes>
-          <Route path="/" element={<Profile />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/trade" element={<Trade />} />
-          <Route path="/coins" element={<Coins />} />
-        </Routes>
+        {!user.isAdmin && (
+          <Routes>
+            <Route path="/" element={<Profile />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/trade" element={<Trade />} />7
+          </Routes>
+        )}
+        {user.isAdmin && <Routes>
+            <Route path="/" element={<Users />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/transactions" element={<Transactions />}/>
+          </Routes>}
       </DashBodyWrapper>
     </>
   );

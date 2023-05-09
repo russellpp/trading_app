@@ -13,8 +13,9 @@ function Trade() {
   const dispatch = useDispatch();
   const { getAllCoins, getMarketData, getCoinHistoricalPrice, getExactPrice } =
     useCoin();
-  
+    
     useEffect(() => {
+      console.log('setting info')
     if (currentCoin) {
       dispatch(setLoading());
       getCoinHistoricalPrice(currentCoin.gecko_id);

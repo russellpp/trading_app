@@ -94,7 +94,8 @@ const ModalBody = styled.div`
 const ModalFooter = styled.div`
   box-sizing: border-box;
   margin-bottom: 10px;
-  height: 30px;
+  height: auto;
+  min-height: 30px;
   width: 100%;
   display: flex;
   justify-content: right;

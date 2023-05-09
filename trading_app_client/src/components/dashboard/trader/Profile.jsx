@@ -67,11 +67,12 @@ const UserCoins = styled.div`
   display: flex;
   flex-direction: column;
   margin: 8px;
-  background-color: var(--navy);
+  background-color: var(--navyLight);
   border-radius: 20px;
   padding: 20px;
-  font-family: "RobotoMed";
+  font-family: "Montserrat";
   color: var(--icterine);
+  text-transform: uppercase;
 `;
 const UserProfile = styled.div`
   grid-area: user;
@@ -118,7 +119,7 @@ const UserProfile = styled.div`
     padding: 15px 15px;
     > h2 {
       height: 20%;
-      color: var(--blushLighter);
+      color: var(--navyDark);
     }
   }
 `;

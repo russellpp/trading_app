@@ -79,6 +79,7 @@ export const useCoin = () => {
       }
     );
 
+    console.log(request)
     const response = await fetch(request);
     if (response.status <= 300) {
       const data = await response.json();

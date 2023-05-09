@@ -2,71 +2,61 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import {
-  selectAllCoins,
-  selectCurrentCoin,
-  setCurrentCoin,
-} from "../../../redux/coinReducer";
-import { setFilteredUsers } from "../../../redux/adminReducer";
+  selectCurrentTrader,
+  selectFilteredUsers,
+  selectUserList,
+  setCurrentTrader,
+  setFilteredUsers,
+} from "../../../redux/adminReducer";
 
-function CoinSearch() {
-  const coins = useSelector(selectAllCoins);
-  const currentCOin = useSelector(selectCurrentCoin);
+function UserSearch() {
   const dispatch = useDispatch();
+  const userlist = useSelector(selectUserList);
+  const users = useSelector(selectFilteredUsers);
+  const currentTrader = useSelector(selectCurrentTrader);
   const [searchValue, setSearchValue] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [clickedOption, setClickedOption] = useState(null);
 
   useEffect(() => {
-    dispatch(setCurrentCoin(clickedOption));
+    dispatch(setCurrentTrader(clickedOption));
   }, [clickedOption]);
 
   useEffect(() => {
-    if (currentCOin) {
-      setSearchValue(currentCOin);
-      setClickedOption(currentCOin);
+    if (currentTrader) {
+      setSearchValue(currentTrader);
+      setClickedOption(currentTrader);
       setShowResults(false);
     }
-  }, [currentCOin]);
+  }, [currentTrader]);
 
   const handleSearch = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchValue(value);
     setShowResults(value !== "");
-    const filtered = coins.filter(
+    const filtered = users.filter(
       (item) =>
-        item.name.toLowerCase().includes(value) ||
-        item.ticker.toLowerCase().includes(value)
+        item.email.toLowerCase().includes(value) ||
+        item.phone_number.toLowerCase().includes(value)
     );
     setFilteredData(filtered);
+    dispatch(setFilteredUsers(filtered));
   };
 
-  const handleOptionClick = (value) => {
-    setSearchValue(value);
-    setClickedOption(value);
-    setShowResults(false);
-  };
+  useEffect(() => {
+    if (searchValue === "") {
+      dispatch(setFilteredUsers(userlist));
+    }
+  }, [searchValue]);
 
   return (
     <SearchContainer>
       <StyledInput
-        placeholder="Search coins"
+        placeholder="Search users"
         value={searchValue.name}
         onChange={(event) => handleSearch(event)}
       />
-      {showResults && (
-        <SearchResults>
-          {filteredData.map((result) => (
-            <ResultItem
-              key={result.id}
-              onClick={() => handleOptionClick(result)}
-              isActive={result === clickedOption}
-            >
-              {result.name} ({result.ticker})
-            </ResultItem>
-          ))}
-        </SearchResults>
-      )}
     </SearchContainer>
   );
 }
@@ -122,4 +112,4 @@ const ResultItem = styled.div`
   }
 `;
 
-export default CoinSearch;
+export default UserSearch;

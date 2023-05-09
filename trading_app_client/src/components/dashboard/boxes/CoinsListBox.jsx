@@ -55,7 +55,8 @@ function CoinsListBox() {
 
             <p>
               {" "}
-              {parseFloat(
+              {ownedCoins &&
+              parseFloat(
                 ownedCoins?.cryptos.find((item) => item.gecko_id === data.id)
                   .quantity
               ) !== 0
@@ -63,7 +64,8 @@ function CoinsListBox() {
                 : "FOLLOWING"}
             </p>
             <p>
-              {parseFloat(
+              {ownedCoins &&
+              parseFloat(
                 ownedCoins?.cryptos.find((item) => item.gecko_id === data.id)
                   .quantity
               ) !== 0
@@ -79,7 +81,7 @@ function CoinsListBox() {
 }
 
 const ListWrapper = styled.div`
-  height: 800px;
+  height: auto;
   width: inherit;
   overflow-y: auto;
   > ul {

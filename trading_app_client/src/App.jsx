@@ -13,7 +13,14 @@ import {
 import LoadingModal from "./components/modals/LoadingModal";
 import SuccessModal from "./components/modals/SuccessModal";
 import { useEffect } from "react";
-import { selectUser, selectUserDetails, userLogin } from "./redux/userReducer";
+import {
+  selectUser,
+  selectUserDetails,
+  userLogin,
+  selectUserCryptos,
+  setCryptos,
+  setTransactions,
+} from "./redux/userReducer";
 import Cookies from "js-cookie";
 import { goToDashboard, selectCurrentPage } from "./redux/navigationReducer";
 import { useNavigate } from "react-router";
@@ -21,6 +28,21 @@ import styled from "styled-components";
 import { useAuth } from "./hooks/useAuth";
 import { setAllCoins } from "./redux/coinReducer";
 import { useCoin } from "./hooks/useCoin";
+import {
+  selectAddFundsModal,
+  selectAddUserModal,
+  selectEditUserModal,
+  selectModalStatus,
+} from "./redux/modalReducer";
+import AddUserModal from "./components/modals/AddUserModal";
+import { EditModalContainer } from "./components/modals/Modals";
+import AdminReducer, {
+  setAllTransactions,
+  setUserList,
+} from "./redux/adminReducer";
+import { useTrader } from "./hooks/useTrader";
+import { useAdmin } from "./hooks/useAdmin";
+import EditUserModal from "./components/modals/EditUserModal";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +54,12 @@ function App() {
   const status = useSelector(selectStatus);
   const navigate = useNavigate();
   const loadingState = useSelector(selectLoading);
+  const addUserModal = useSelector(selectAddUserModal);
+  const editUserModal = useSelector(selectEditUserModal);
+  const addFundsModal = useSelector(selectAddFundsModal);
+  const modalStatus = useSelector(selectModalStatus);
+  const { getOwnedCoins, getTransactions } = useTrader();
+  const { getUserList, getAllTransactions } = useAdmin();
 
   // navigation hook
   useEffect(() => {
@@ -55,8 +83,10 @@ function App() {
       navigate("/dashboard/profile");
     } else if (currentPage === "user_trade") {
       navigate("/dashboard/trade");
-    } else if (currentPage === "coins") {
-      navigate("/dashboard/coins");
+    } else if (currentPage === "admin_users") {
+      navigate("/dashboard/users");
+    } else if (currentPage === "admin_transactions") {
+      navigate("/dashboard/transactions");
     }
   }, [currentPage]);
 
@@ -81,6 +111,38 @@ function App() {
     } else {
       dispatch(setAllCoins(coins));
     }
+    if (currentUser?.isAdmin) {
+      const userList = JSON.parse(localStorage.getItem("user_list"));
+      if (!userList) {
+        getUserList();
+      } else {
+        dispatch(setUserList(userList));
+      }
+
+      const transactionList = JSON.parse(
+        localStorage.getItem("all_transactions")
+      );
+      if (!transactionList) {
+        getAllTransactions();
+      } else {
+        dispatch(setAllTransactions(transactionList));
+      }
+    }
+    if (currentUser?.isAdmin === false) {
+      const cryptos = JSON.parse(localStorage.getItem("owned_cryptos"));
+      if (!cryptos) {
+        getOwnedCoins();
+      } else {
+        dispatch(setCryptos(cryptos));
+      }
+
+      const transactions = JSON.parse(localStorage.getItem("transactions"));
+      if (!transactions) {
+        getTransactions();
+      } else {
+        dispatch(setTransactions(transactions));
+      }
+    }
   }, [currentUserDetails]);
 
   //auto logout when cookie expires
@@ -100,6 +162,8 @@ function App() {
       {status.loading && <LoadingModal />}
       {status.error !== null && <AlertModal />}
       {status.success && <SuccessModal />}
+      {modalStatus.addUser && <AddUserModal />}
+      {editUserModal && <EditUserModal />}
       <Routes>
         <Route path="/*" element={<HomePage />} />
         <Route path="/home/*" element={<HomePage />} />

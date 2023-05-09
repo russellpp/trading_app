@@ -4,12 +4,12 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   token: null,
-  isAdmin: false,
+  isAdmin: null,
   loginDetails: null,
   resendDetails: null,
   wallet: null,
   cryptos: null,
-  transactions: null
+  transactions: null,
 };
 
 const userSlice = createSlice({
@@ -27,7 +27,7 @@ const userSlice = createSlice({
       state.isAuthenticated = false;
       state.user = null;
       state.token = null;
-      state.isAdmin = false;
+      state.isAdmin = null;
       state.loginDetails = null;
       state.resendDetails = null;
       state.wallet = null;
@@ -51,17 +51,17 @@ const userSlice = createSlice({
       state.wallet = null;
     },
     setCryptos: (state, action) => {
-      state.cryptos = action.payload
+      state.cryptos = action.payload;
     },
     setTransactions: (state, action) => {
-      state.transactions = action.payload
+      state.transactions = action.payload;
     },
     clearCryptos: (state) => {
-      state.cryptos = null
+      state.cryptos = null;
     },
     clearTransactions: (state) => {
-      state.transactions = null
-    }
+      state.transactions = null;
+    },
   },
 });
 
@@ -77,7 +77,7 @@ export const {
   setCryptos,
   setTransactions,
   clearCryptos,
-  clearTransactions
+  clearTransactions,
 } = userSlice.actions;
 
 export const selectLoginDetails = (state) => state.user.loginDetails;

@@ -285,9 +285,9 @@ const Placeholder = styled.label`
 const FormSubmitButton = styled.input`
   height: 50px;
   width: 200px;
-  margin-top: 20px;
+  margin-top: 50px;
   margin-bottom: 16px;
-  margin-left: auto;
+  margin-left: 100px;
   margin-right: auto;
   padding: 8px;
   border-radius: 25px;

@@ -9,25 +9,22 @@ import {
   formatDate,
   roundToSixSignificantFigures,
 } from "../../utils/UtilityFunctions";
+import { selectCurrentCoin } from "../../../redux/coinReducer";
+import {
+  selectCurrentTrader,
+  selectTraderTransactions,
+} from "../../../redux/adminReducer";
 
-function TransactionBox() {
+function UserTransactions() {
   const [array, setArray] = useState([]);
-
-  const transactions = useSelector(selectUserTransactions);
-  const ownedCoins = useSelector(selectUserCryptos);
+  const transactions = useSelector(selectTraderTransactions);
+  const currentTrader = useSelector(selectCurrentTrader);
 
   useEffect(() => {
     if (transactions) {
       const arr = transactions?.transactions;
       setArray(arr?.slice().reverse());
     }
-    // if (ownedCoins) {
-    //   const coins = ownedCoins.cryptos;
-    //   const totalQuantity = coins.reduce(
-    //     (accumulator, item) => accumulator + parseFloat(item.quantity),
-    //     0
-    //   );
-    // }
   }, [transactions]);
 
   return (
@@ -54,26 +51,31 @@ function TransactionBox() {
     </TransactionContainer>
   );
 }
-
 const TransactionContainer = styled.div`
-
+  padding: 10px;
+  border-radius: 15px;
+  height: 600px;
+  border: 2px solid var(--blush);
 `;
-
 const Wrapper = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
+  overflow-y: auto;
   > ul {
+    padding: 10px;
     overflow-y: auto;
     list-style: none;
     height: 100%;
-    padding: 0;
+    padding: 10px;
+    text-transform: uppercase;
   }
 `;
 const ListItem = styled.li`
   height: 45px;
   box-sizing: content-box;
   display: grid;
-  background-color: var(--navyLight);
+  background-color: var(--blushLighter);
   padding: 5px 5px;
   grid-template-areas: "buy qty value" "time coin value";
   grid-template-columns: 0.8fr 1.2fr 1fr;
@@ -83,7 +85,7 @@ const ListItem = styled.li`
   > p:nth-of-type(2),
   p:nth-of-type(3),
   p:first-of-type {
-    color: var(--blushLightest);
+    color: var(--navy);
     font-size: 22px;
   }
 
@@ -93,19 +95,20 @@ const ListItem = styled.li`
   > p:nth-of-type(3) {
     grid-area: value;
     font-size: 33px;
-    color: var(--blushLightest);
+    color: var(--navy);
   }
 
   > p:nth-of-type(4),
   p:nth-of-type(5),
   p:nth-of-type(6) {
     font-size: 12px;
-    color: var(--blushLightest);
+    color: var(--navy);
   }
 
   &:hover {
-    background-color: var(--navyDarker);
+    background-color: var(--blushLight);
+    cursor: pointer;
   }
 `;
 
-export default TransactionBox;
+export default UserTransactions;

@@ -38,8 +38,11 @@ const navigationSlice = createSlice({
     goToDashUserTrade: (state) => {
       state.currentPage = "user_trade";
     },
-    goToDashCoins: (state) => {
-      state.currentPage = "coins";
+    goToDashAdminUsers: (state) => {
+      state.currentPage = "admin_users"
+    },
+    goToDashAdminTransactions: (state) => {
+      state.currentPage = "admin_transactions"
     },
     
   },
@@ -55,8 +58,9 @@ export const {
   goToResendVerifyPage,
   goToDashboard,
   goToDashProfile,
-  goToDashCoins,
-  goToDashUserTrade
+  goToDashUserTrade,
+  goToDashAdminUsers,
+  goToDashAdminTransactions
 } = navigationSlice.actions;
 
 export const selectCurrentPage = (state) => state.navigation.currentPage;

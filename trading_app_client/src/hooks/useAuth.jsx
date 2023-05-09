@@ -14,6 +14,7 @@ import {
 import {
   clearResendDetails,
   selectLoginDetails,
+  selectUser,
   setLoginDetails,
   setResendDetails,
   userLogin,
@@ -38,6 +39,7 @@ export const useAuth = () => {
   const navigate = useNavigate();
   const currentLoginDetails = useSelector(selectLoginDetails);
   const currentPage = useSelector(selectCurrentPage);
+  const adminUser = useSelector(selectUser)
 
   const register = async (details) => {
     dispatch(setLoading());
@@ -76,6 +78,7 @@ export const useAuth = () => {
 
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
+    headers.append("Authorization", `Bearer ${adminUser.token}`)
 
     const request = new Request(`${RAILS_API}/login`, {
       method: "POST",

@@ -8,7 +8,8 @@ import {
 } from "../../redux/userReducer";
 import { useNavigate } from "react-router";
 import {
-  goToDashCoins,
+  goToDashAdminTransactions,
+  goToDashAdminUsers,
   goToDashProfile,
   goToDashUserTrade,
   selectCurrentPage,
@@ -29,6 +30,15 @@ import {
   switchType,
 } from "../../redux/tradeReducer";
 import { useTrader } from "../../hooks/useTrader";
+import { useAdmin } from "../../hooks/useAdmin";
+import {
+  selectCurrentTrader,
+  selectFilteredTransactions,
+  selectFilteredUsers,
+  selectTraderTransactions,
+  selectUserList,
+} from "../../redux/adminReducer";
+import { selectAddUserModal } from "../../redux/modalReducer";
 
 function Sidebar() {
   const currentUser = useSelector(selectUser);
@@ -47,16 +57,27 @@ function Sidebar() {
   const navigate = useNavigate();
   const currentPage = useSelector(selectCurrentPage);
   const dispatch = useDispatch();
+  const userlist = useSelector(selectUserList);
+  const filteredusers = useSelector(selectFilteredUsers);
   const [options, setOptions] = useState(["Hello", "Maria"]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const { getUserList, getAllTransactions, getUserTransactions } = useAdmin();
+  const currentTrader = useSelector(selectCurrentTrader);
+  const traderTransactions = useSelector(selectTraderTransactions);
+  const adduser = useSelector(selectAddUserModal);
+  const filteredtrans = useSelector(selectFilteredTransactions);
 
   const handleClick = () => {
-    console.log(coins.find((item) => item.gecko_id === "bitcoin"));
+    console.log(filteredtrans);
   };
 
   const handleLogout = () => {
     logout();
     dispatch(setSuccess(["Successfully logged out!"]));
+  };
+
+  const handleLink = () => {
+    window.location.href = "https://www.coingecko.com/en/api";
   };
 
   const handleItemClick = (index) => {
@@ -66,13 +87,25 @@ function Sidebar() {
       } else if (index === 1) {
         dispatch(goToDashUserTrade());
       }
-      setActiveIndex(index);
+    } else {
+      if (index === 0) {
+        dispatch(goToDashAdminUsers());
+      } else if (index === 1) {
+        dispatch(goToDashAdminTransactions());
+      }
     }
+    setActiveIndex(index);
   };
 
   useEffect(() => {
     if (!currentUser.isAdmin) {
       if (currentPage !== "user_trade") {
+        setActiveIndex(0);
+      } else {
+        setActiveIndex(1);
+      }
+    } else {
+      if (currentPage !== "admin_transactions") {
         setActiveIndex(0);
       } else {
         setActiveIndex(1);
@@ -84,13 +117,13 @@ function Sidebar() {
     if (!currentUser.isAdmin) {
       setOptions(["Profile", "Trade"]);
     } else {
-      setOptions(["Users", "Trade", "Transactions", "Coins"]);
+      setOptions(["Users", "Transactions"]);
     }
-  }, []);
+  }, [currentUser]);
 
   return (
     <SideBarWrapper>
-      <button onClick={handleClick} />
+      {/* <button onClick={handleClick} /> */}
       <div>
         <img src="/src/assets/icon-crop-navy.svg" alt="icon" />
         <h3>COIN·SWIFT</h3>
@@ -104,9 +137,9 @@ function Sidebar() {
               onClick={() => handleItemClick(index)}
               style={{
                 backgroundColor:
-                  activeIndex === index ? "var(--navy)" : "var(--buff)",
+                  activeIndex === index ? "var(--navy)" : "var(--blushLighter)",
                 color:
-                  activeIndex === index ? "var(--buffLighter)" : "var(--navy)",
+                  activeIndex === index ? "var(--blushLighter)" : "var(--navy)",
               }}
             >
               {option}
@@ -117,6 +150,7 @@ function Sidebar() {
       <CancelButton onClick={handleLogout} className="cancel-button">
         logout
       </CancelButton>
+      <span onClick={handleLink}>Powered by CoinGecko API</span>
     </SideBarWrapper>
   );
 }
@@ -125,7 +159,7 @@ const SideBarWrapper = styled.div`
   box-sizing: content-box;
   height: 100%;
   width: 200px;
-  background-color: var(--buff);
+  background-color: var(--magentaLight);
   color: white;
   font-family: "RobotoBold";
   display: flex;
@@ -136,19 +170,21 @@ const SideBarWrapper = styled.div`
   text-transform: uppercase;
   padding: 20px 15px;
   & > div:first-of-type {
-    margin-top: 40px;
+    margin-top: 10px;
     display: flex;
-    flex-direction: row;
-    height: 50px;
+    flex-direction: column;
+    height: auto;
     align-items: center;
     pointer-events: none;
 
     > img {
-      height: 50px;
+      height: 90px;
       margin-right: 10px;
+      margin-bottom: 10px;
     }
     > h3 {
       font-family: "SanGiuseppe";
+      font-size: 30px;
       letter-spacing: 3px;
       font-weight: 800;
       color: var(--navy);
@@ -183,7 +219,21 @@ const SideBarWrapper = styled.div`
   }
   > button:last-of-type {
     position: absolute;
+    bottom: 60px;
+    padding: 10px 20px;
+    border-radius: 20px;
+  }
+  > span {
+    font-family: "RobotoReg";
+    color: var(--navy);
+    text-transform: none;
+    position: absolute;
     bottom: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    &:hover {
+      color: var(--magenta);
+    }
   }
 `;
 
