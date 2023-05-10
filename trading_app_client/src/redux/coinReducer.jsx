@@ -5,7 +5,7 @@ const initialState = {
   currentCoin: null,
   chartData: null,
   marketData: null,
-  exactPrice: null
+  exactPrice: null,
 };
 
 const coinSlice = createSlice({
@@ -21,6 +21,9 @@ const coinSlice = createSlice({
     clearCoins: (state) => {
       state.allCoins = null;
       state.currentCoin = null;
+      state.chartData = null;
+      state.marketData = null;
+      state.exactPrice = null;
     },
     setCurrentCoin: (state, action) => {
       state.currentCoin = action.payload;
@@ -60,7 +63,7 @@ export const {
   setMarketData,
   clearMarketData,
   setExactPrice,
-  clearExactPrice
+  clearExactPrice,
 } = coinSlice.actions;
 
 export const selectAllCoins = (state) => state.coin.allCoins;

@@ -56,7 +56,7 @@ function TransactionBox() {
 }
 
 const TransactionContainer = styled.div`
-
+  height: 50px;
 `;
 
 const Wrapper = styled.div`

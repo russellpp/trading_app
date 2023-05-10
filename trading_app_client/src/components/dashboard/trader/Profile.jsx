@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TransactionBox from "../boxes/TransactionBox";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   selectUserCryptos,
+  selectUserDetails,
   selectUserWallet,
 } from "../../../redux/userReducer";
 import {
@@ -11,12 +12,16 @@ import {
   roundToSixSignificantFigures,
 } from "../../utils/UtilityFunctions";
 import CoinsListBox from "../boxes/CoinsListBox";
+import { setAddFunds } from "../../../redux/modalReducer";
 
 function Profile() {
   const wallet = useSelector(selectUserWallet);
+  const dispatch = useDispatch();
+  const currentUser = useSelector(selectUserDetails);
 
-
- 
+  const handleOpenAddFunds = () => {
+    dispatch(setAddFunds());
+  };
 
   return (
     <ProfileContainer>
@@ -29,12 +34,15 @@ function Profile() {
       </UserCoins>
       <UserProfile>
         <div>
-          <h2>cucumber@lemon.com</h2>
-          <h5>approved for trading</h5>
+          <h2>{currentUser?.email}</h2>
+          <h5>
+            {currentUser?.approved
+              ? "Approved for trading"
+              : "Pending approval"}
+          </h5>
           <h3>wallet balance</h3>
-          <h4>{wallet && formatPrice(wallet)} USD</h4>
-          <h3>portfoliio value</h3>
-          <h4>${`365949`} USD</h4>
+          <h4>{wallet ? formatPrice(wallet) : "$ 0"} USD</h4>
+          <button onClick={handleOpenAddFunds}>Add funds</button>
         </div>
         <TransactionBox />
       </UserProfile>
@@ -109,6 +117,24 @@ const UserProfile = styled.div`
       margin-bottom: 10px;
       color: var(--navyDarker);
     }
+    > button {
+      height: 40px;
+      margin-top: 3px;
+      border: none;
+      border-radius: 10px;
+      padding: 3px 15px;
+      text-transform: uppercase;
+      font-family: "Montserrat";
+      font-weight: 600;
+      background-color: var(--icterineDark);
+      cursor: pointer;
+      transition: 0.2s;
+      &:hover {
+        background-color: var(--navy);
+        font-weight: 800;
+        color: var(--icterine);
+      }
+    }
   }
   > div:nth-of-type(2) {
     background-color: var(--navyLight);
@@ -119,6 +145,7 @@ const UserProfile = styled.div`
     padding: 15px 15px;
     > h2 {
       height: 20%;
+      max-height: 50px;
       color: var(--navyDark);
     }
   }
@@ -130,7 +157,7 @@ const OwnedCryptos = styled.div`
   flex-direction: column;
   justify-items: flex-start;
   align-items: flex-start;
-  >h2{
+  > h2 {
     margin-bottom: 20px;
   }
 `;

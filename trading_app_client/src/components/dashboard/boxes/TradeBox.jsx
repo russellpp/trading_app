@@ -132,9 +132,11 @@ function TradeBox() {
         </InputContainer>
         <div>
           <p>{currentCoin.ticker} owned</p>
-          <p>{details.currently_owned}</p>
+          <p>
+            {details.currently_owned}
+          </p>
           <p>Wallet balance</p>
-          <p>{roundToSixSignificantFigures(walletBalance)} USD</p>
+          <p>{walletBalance ? formatPrice(walletBalance) : "$ 0"} USD</p>
         </div>
         <FormSubmitButton
           type="submit"

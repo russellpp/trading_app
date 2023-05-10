@@ -31,6 +31,8 @@ const userSlice = createSlice({
       state.loginDetails = null;
       state.resendDetails = null;
       state.wallet = null;
+      state.cryptos = null;
+      state.transactions = null;
     },
     setLoginDetails: (state, action) => {
       state.loginDetails = action.payload;

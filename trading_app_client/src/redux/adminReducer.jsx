@@ -31,6 +31,9 @@ const adminSlice = createSlice({
       state.pendingUsers = null;
       state.transactions = null;
       state.trader = null;
+      state.filteredTransactions = null;
+      state.filteredUsers = null;
+      state.traderTransactions   = null;
     },
     setFilteredUsers: (state, action) => {
       state.filteredUsers = action.payload;

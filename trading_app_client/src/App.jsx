@@ -43,6 +43,7 @@ import AdminReducer, {
 import { useTrader } from "./hooks/useTrader";
 import { useAdmin } from "./hooks/useAdmin";
 import EditUserModal from "./components/modals/EditUserModal";
+import AddFundsModal from "./components/modals/AddFundsModal";
 
 function App() {
   const dispatch = useDispatch();
@@ -163,6 +164,7 @@ function App() {
       {status.error !== null && <AlertModal />}
       {status.success && <SuccessModal />}
       {modalStatus.addUser && <AddUserModal />}
+      {modalStatus.addFunds && <AddFundsModal />}
       {editUserModal && <EditUserModal />}
       <Routes>
         <Route path="/*" element={<HomePage />} />

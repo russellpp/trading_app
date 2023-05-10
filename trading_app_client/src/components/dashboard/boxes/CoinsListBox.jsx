@@ -35,70 +35,74 @@ function CoinsListBox() {
 
   return (
     <ListWrapper>
-      <ul>
-        {dataArray?.map((data, index) => (
-          <CoinItem key={index} onClick={() => handleCoinItemClick(data.id)}>
-            <p>{data.name}</p>
-            <p>{data.symbol}</p>
-            <p>{formatPrice(data.current_price)}</p>
-            <p>{data.price_change_percentage_24h}%</p>
+      {ownedCoins?.cryptos.length === 0 ? null : (
+        <ul>
+          {dataArray?.map((data, index) => (
+            <CoinItem key={index} onClick={() => handleCoinItemClick(data.id)}>
+              <p>{data.name}</p>
+              <p>{data.symbol}</p>
+              <p>{formatPrice(data.current_price)}</p>
+              <p>{data.price_change_percentage_24h}%</p>
 
-            <p>market cap</p>
-            <p>{formatBigNumber(data.market_cap)}</p>
-            <p>high</p>
-            <p>{formatPrice(data.high_24h)}</p>
+              <p>market cap</p>
+              <p>{formatBigNumber(data.market_cap)}</p>
+              <p>high</p>
+              <p>{formatPrice(data.high_24h)}</p>
 
-            <p>volume (24h)</p>
-            <p>{formatBigNumber(data.total_volume)}</p>
-            <p>low</p>
-            <p>{formatPrice(data.low_24h)}</p>
+              <p>volume (24h)</p>
+              <p>{formatBigNumber(data.total_volume)}</p>
+              <p>low</p>
+              <p>{formatPrice(data.low_24h)}</p>
 
-            <p>
-              {" "}
-              {ownedCoins &&
-              parseFloat(
-                ownedCoins?.cryptos.find((item) => item.gecko_id === data.id)
-                  .quantity
-              ) !== 0
-                ? "OWNED"
-                : "FOLLOWING"}
-            </p>
-            <p>
-              {ownedCoins &&
-              parseFloat(
-                ownedCoins?.cryptos.find((item) => item.gecko_id === data.id)
-                  .quantity
-              ) !== 0
-                ? ownedCoins?.cryptos.find((item) => item.gecko_id === data.id)
+              <p>
+                {" "}
+                {ownedCoins &&
+                parseFloat(
+                  ownedCoins?.cryptos.find((item) => item.gecko_id === data.id)
                     .quantity
-                : ""}
-            </p>
-          </CoinItem>
-        ))}
-      </ul>
+                ) !== 0
+                  ? "OWNED"
+                  : "FOLLOWING"}
+              </p>
+              <p>
+                {ownedCoins &&
+                parseFloat(
+                  ownedCoins?.cryptos.find((item) => item.gecko_id === data.id)
+                    .quantity
+                ) !== 0
+                  ? ownedCoins?.cryptos.find(
+                      (item) => item.gecko_id === data.id
+                    ).quantity
+                  : ""}
+              </p>
+            </CoinItem>
+          ))}
+        </ul>
+      )}
     </ListWrapper>
   );
 }
 
 const ListWrapper = styled.div`
   height: auto;
-  width: inherit;
+  width: 100%;
   overflow-y: auto;
   > ul {
     list-style: none;
-    padding: 0px;
+    padding: 0px 70px;
     margin-top: 10px;
-    height: 800px;
+    height: auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-content: space-evenly;
+    justify-content: space-between;
+    align-content: space-between;
     overflow-y: auto;
   }
 `;
 
 const CoinItem = styled.li`
   box-sizing: content-box;
+  margin-top: 50px;
   padding: 20px;
   border-radius: 20px;
   background-color: var(--blushLight);
@@ -193,9 +197,9 @@ const CoinItem = styled.li`
     }
     &:nth-child(13) {
       grid-area: owned;
-      font-size: 20px !important;
+      font-size: 18px !important;
       font-family: "RobotoMed" !important;
-      color: var(--navy) !important;
+      color: var(--magentaDark) !important;
     }
     &:nth-child(14) {
       grid-area: qty;

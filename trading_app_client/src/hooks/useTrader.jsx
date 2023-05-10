@@ -68,7 +68,7 @@ export const useTrader = () => {
     headers.append("Authorization", `Bearer ${user?.token}`);
 
     const request = new Request(
-      `${RAILS_API}/users/${user?.user.id}/coins/${coinId}`,
+      `${RAILS_API}/users/coins/${coinId}`,
       {
         method: "GET",
         headers,
@@ -100,7 +100,7 @@ export const useTrader = () => {
     headers.append("Content-Type", "application/json");
     headers.append("Authorization", `Bearer ${user?.token}`);
 
-    const request = new Request(`${RAILS_API}/users/${user?.user.id}/coins`, {
+    const request = new Request(`${RAILS_API}/users/coins`, {
       method: "GET",
       headers,
     });
@@ -133,7 +133,7 @@ export const useTrader = () => {
     headers.append("Authorization", `Bearer ${user?.token}`);
 
     const request = new Request(
-      `${RAILS_API}/users/${user?.user.id}/transactions`,
+      `${RAILS_API}/users/transactions`,
       {
         method: "GET",
         headers,
@@ -199,7 +199,7 @@ export const useTrader = () => {
     headers.append("Authorization", `Bearer ${user?.token}`);
 
     const request = new Request(
-      `${RAILS_API}/users/${user?.user.id}/update_watchlist`,
+      `${RAILS_API}/users/update_watchlist`,
       {
         method: "PATCH",
         headers,
@@ -223,6 +223,38 @@ export const useTrader = () => {
     }
   };
 
+  const addFunds = async (details) => {
+    dispatch(setLoading());
+    dispatch(clearError());
+    dispatch(clearSuccess());
+
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", `Bearer ${user?.token}`);
+
+    const request = new Request(`${RAILS_API}/users/funds_transfers`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(details),
+    });
+
+    console.log(request);
+
+    const response = await fetch(request);
+    if (response.status <= 300) {
+      const data = await response.json();
+      console.log(data);
+      getBalance();
+      dispatch(setSuccess(data.messages));
+      dispatch(clearLoading());
+    } else {
+      const error = await response.json();
+      console.log(error);
+      dispatch(setError(error.errors));
+      dispatch(clearLoading());
+    }
+  };
+
   return {
     trade,
     getCrypto,
@@ -230,5 +262,6 @@ export const useTrader = () => {
     getTransactions,
     getBalance,
     updateWatchlist,
+    addFunds,
   };
 };

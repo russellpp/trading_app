@@ -32,6 +32,7 @@ import {
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { clearCoins } from "../redux/coinReducer";
+import { clearAdmin } from "../redux/adminReducer";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -115,6 +116,8 @@ export const useAuth = () => {
 
     dispatch(userLogout());
     dispatch(clearCoins());
+    dispatch(clearAdmin())
+
     localStorage.clear();
     Cookies.remove("user");
     dispatch(goToHomePage());
