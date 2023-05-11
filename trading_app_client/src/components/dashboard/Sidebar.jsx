@@ -125,7 +125,7 @@ function Sidebar() {
     <SideBarWrapper>
       {/* <button onClick={handleClick} /> */}
       <div>
-        <img src="/src/assets/icon-crop-navy.svg" alt="icon" />
+        <img src="./public/assets/icon-crop-navy.svg" alt="icon" />
         <h3>COIN·SWIFT</h3>
       </div>
 

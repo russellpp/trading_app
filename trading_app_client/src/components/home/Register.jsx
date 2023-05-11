@@ -160,7 +160,7 @@ const Logo = styled.div`
   z-index: 2;
   width: 20rem;
   height: 20rem;
-  background-image: url("/src/assets/icon-crop-buff.svg");
+  background-image: url("./public/assets/icon-crop-buff.svg");
   background-size: cover;
   margin-top: 30px;
   margin-bottom: 10px;
