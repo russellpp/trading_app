@@ -45,37 +45,37 @@
 
 @font-face {
   font-family: "Montserrat";
-  src: url("./public/assets/Montserrat.woff2") format("woff2");
+  src: url("/Montserrat.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "RobotoReg";
-  src: url("./public/assets/Roboto-Regular.woff") format("woff");
+  src: url("/Roboto-Regular.woff") format("woff");
 }
 
 @font-face {
   font-family: "RobotoThin";
-  src: url("./public/assets/Roboto-Thin.woff") format("woff");
+  src: url("/Roboto-Thin.woff") format("woff");
 }
 
 @font-face {
   font-family: "RobotoMed";
-  src: url("./public/assets/Roboto-Medium.woff") format("woff");
+  src: url("/Roboto-Medium.woff") format("woff");
 }
 
 @font-face {
   font-family: "RobotoBlack";
-  src: url("./public/assets/Roboto-Black.woff2") format("woff2");
+  src: url("/Roboto-Black.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "RobotoBold";
-  src: url("./public/assets/Roboto-Bold.woff2") format("woff2");
+  src: url("/Roboto-Bold.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "SanGiuseppe";
-  src: url("./public/assets/SanGiuseppe.woff2") format("woff2");
+  src: url("/SanGiuseppe.woff2") format("woff2");
 }
 
 * {
@@ -91,10 +91,8 @@
     border-radius: 5px;
   }
 
-
   ::-webkit-scrollbar-track {
     border-radius: 5px;
     background: #f1f1f154;
   }
-
 }
