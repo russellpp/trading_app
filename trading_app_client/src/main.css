@@ -45,37 +45,37 @@
 
 @font-face {
   font-family: "Montserrat";
-  src: url("/Montserrat.woff2") format("woff2");
+  src: url("/assets/Montserrat.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "RobotoReg";
-  src: url("/Roboto-Regular.woff") format("woff");
+  src: url("/assets/Roboto-Regular.woff") format("woff");
 }
 
 @font-face {
   font-family: "RobotoThin";
-  src: url("/Roboto-Thin.woff") format("woff");
+  src: url("/assets/Roboto-Thin.woff") format("woff");
 }
 
 @font-face {
   font-family: "RobotoMed";
-  src: url("/Roboto-Medium.woff") format("woff");
+  src: url("/assets/Roboto-Medium.woff") format("woff");
 }
 
 @font-face {
   font-family: "RobotoBlack";
-  src: url("/Roboto-Black.woff2") format("woff2");
+  src: url("/assets/Roboto-Black.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "RobotoBold";
-  src: url("/Roboto-Bold.woff2") format("woff2");
+  src: url("/assets/Roboto-Bold.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "SanGiuseppe";
-  src: url("/SanGiuseppe.woff2") format("woff2");
+  src: url("/assets/SanGiuseppe.woff2") format("woff2");
 }
 
 * {
