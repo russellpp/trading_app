@@ -107,7 +107,7 @@ const Icon = styled(motion.div)`
   z-index: 2;
   width: 45rem;
   height: 45rem;
-  background-image: url("/icon-crop-magenta.svg");
+  background-image: url("/assets/icon-crop-magenta.svg");
   background-size: cover;
   margin-top: 130px;
   margin-right: 20px;
