@@ -105,7 +105,7 @@ const TitleWrapper = styled.div`
 const Icon = styled.div`
   width: 40px;
   height: 40px;
-  background-image: url("./public/assets/icon-whiteout.svg");
+  background-image: url("/icon-whiteout.svg");
   background-size: cover;
   margin-right: 20px;
 `;

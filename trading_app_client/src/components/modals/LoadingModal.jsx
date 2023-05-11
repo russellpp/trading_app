@@ -7,7 +7,7 @@ function LoadingModal() {
     <ModalContainer>
       <ModalBody>
         <LoadingContainer>
-          <img src="./public/assets/loading.gif" alt="loading..." />
+          <img src="/loading.gif" alt="loading..." />
           <p>LOADING...</p>
         </LoadingContainer>
       </ModalBody>
